@@ -21,11 +21,19 @@ function printsummary(a)
 end
 
 
+# Quasispecies equation (replicator/mutator)
 # rate of change for x
-function quasispecies(x, Q, f)
+function quasispecies{T<:Float64}(x::Array{T,1}, Q::Array{T,2}, f::Array{T,1})
     phi = dot(f, x)
     println("  phi: ", phi)
     return Q*(f.*x) - phi*x
+end
+
+# Replicator equation
+function quasispecies{T<:Float64}(x::Array{T,1}, f::Array{T,1})
+    phi = dot(f, x)
+    println("  phi: ", phi)
+    return f.*x - phi*x
 end
 
 end
