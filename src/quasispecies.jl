@@ -42,6 +42,22 @@ function quasispecies{T<:Float64}(x::Array{T,1}, f::Array{T,1})
 end
 
 # Simulate quasispecies
+# x: quasispecies population vector
+# Q: mutation matrix
+# a: game theoretic payoff matrix
+function simulate{T<:Float64}(x::Array{T,1}, Q::Array{T,2}, a::Array{T,2}, numsteps, timestep::T=1.0)
+    for i = 1:numsteps
+        f = a*x
+        xp = quasispecies(x, Q, f)
+        x = x + timestep*(x.*xp)
+        x = x/norm(x, 1)
+        printsummary(x)
+    end
+end
+
+# x: quasispecies population vector
+# Q: mutation matrix
+# f: fitness vector
 function simulate{T<:Float64}(x::Array{T,1}, Q::Array{T,2}, f::Array{T,1}, numsteps, timestep::T=1.0)
     for i = 1:numsteps
         xp = quasispecies(x, Q, f)
@@ -51,6 +67,8 @@ function simulate{T<:Float64}(x::Array{T,1}, Q::Array{T,2}, f::Array{T,1}, numst
     end
 end
 
+# x: quasispecies population vector
+# f: fitness vector
 function simulate{T<:Float64}(x::Array{T,1}, f::Array{T,1}, numsteps, timestep::T=1.0)
     for i = 1:numsteps
         xp = quasispecies(x, f)
