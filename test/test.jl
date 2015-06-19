@@ -21,19 +21,17 @@ f = [1.5, 1.0, 0.5]
 
 # x must sum to 1
 x = [0.1, 0.1, 0.8]
-t = 0.2        # timestep
+timestep = 0.2        # timestep
 numsteps = 20
 
 printsummary(x)
 
 # Run quasispecies simulation
-for i = 1:numsteps
-    xp = quasispecies(x, Q, f)
-    # xp = quasispecies(x, f)
-    # printsummary(xp)
-    # println("sum(xp): ", sum(xp))
-    x = x + t*(x.*xp)
-    x = x/norm(x, 1)
-    printsummary(x)
-    # println("sum(x): ", sum(x))
-end
+simulate(x, Q, f, numsteps, timestep)
+simulate(x, f, numsteps, timestep)
+# for i = 1:numsteps
+#     xp = quasispecies(x, Q, f)
+#     x = x + t*(x.*xp)
+#     x = x/norm(x, 1)
+#     printsummary(x)
+# end

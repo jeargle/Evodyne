@@ -4,7 +4,7 @@
 
 module Quasispecies
 
-export printsummary, quasispecies
+export printsummary, quasispecies, simulate
 
 # dx_i/dt = sum_{j=0 to n} q_ij*f_j*x_j - phi*x_i = Q.*f*x - phi*x = W*x - phi*x
 # x_i: fraction of infinite population as quasispecies i
@@ -23,6 +23,9 @@ end
 
 # Quasispecies equation (replicator/mutator)
 # rate of change for x
+# x: quasispecies population vector
+# Q: mutation matrix
+# f: fitness vector
 function quasispecies{T<:Float64}(x::Array{T,1}, Q::Array{T,2}, f::Array{T,1})
     phi = dot(f, x)
     println("  phi: ", phi)
@@ -30,10 +33,31 @@ function quasispecies{T<:Float64}(x::Array{T,1}, Q::Array{T,2}, f::Array{T,1})
 end
 
 # Replicator equation
+# x: quasispecies population vector
+# f: fitness vector
 function quasispecies{T<:Float64}(x::Array{T,1}, f::Array{T,1})
     phi = dot(f, x)
     println("  phi: ", phi)
     return f.*x - phi*x
+end
+
+# Simulate quasispecies
+function simulate{T<:Float64}(x::Array{T,1}, Q::Array{T,2}, f::Array{T,1}, numsteps, timestep::T=1.0)
+    for i = 1:numsteps
+        xp = quasispecies(x, Q, f)
+        x = x + timestep*(x.*xp)
+        x = x/norm(x, 1)
+        printsummary(x)
+    end
+end
+
+function simulate{T<:Float64}(x::Array{T,1}, f::Array{T,1}, numsteps, timestep::T=1.0)
+    for i = 1:numsteps
+        xp = quasispecies(x, f)
+        x = x + timestep*(x.*xp)
+        x = x/norm(x, 1)
+        printsummary(x)
+    end
 end
 
 end
