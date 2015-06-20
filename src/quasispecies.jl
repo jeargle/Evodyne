@@ -23,10 +23,10 @@ end
 
 # Quasispecies equation (replicator/mutator)
 # rate of change for x
-# x: quasispecies population vector
+# x: population vector
 # Q: mutation matrix
 # f: fitness vector
-function quasispecies{T<:Float64}(x::Array{T,1}, Q::Array{T,2}, f::Array{T,1})
+function replicatorMutator{T<:Float64}(x::Array{T,1}, Q::Array{T,2}, f::Array{T,1})
     phi = dot(f, x)
     println("  phi: ", phi)
     return Q*(f.*x) - phi*x
@@ -35,43 +35,53 @@ end
 # Replicator equation
 # x: quasispecies population vector
 # f: fitness vector
-function quasispecies{T<:Float64}(x::Array{T,1}, f::Array{T,1})
+function replicator{T<:Float64}(x::Array{T,1}, f::Array{T,1})
     phi = dot(f, x)
     println("  phi: ", phi)
     return f.*x - phi*x
 end
 
-# Simulate quasispecies
-# x: quasispecies population vector
-# Q: mutation matrix
-# a: game theoretic payoff matrix
-function simulate{T<:Float64}(x::Array{T,1}, Q::Array{T,2}, a::Array{T,2}, numsteps, timestep::T=1.0)
-    for i = 1:numsteps
-        f = a*x
-        xp = quasispecies(x, Q, f)
-        x = x + timestep*(x.*xp)
-        x = x/norm(x, 1)
-        printsummary(x)
-    end
-end
 
-# x: quasispecies population vector
+# x: population vector
 # Q: mutation matrix
 # f: fitness vector
 function simulate{T<:Float64}(x::Array{T,1}, Q::Array{T,2}, f::Array{T,1}, numsteps, timestep::T=1.0)
     for i = 1:numsteps
-        xp = quasispecies(x, Q, f)
+        xp = replicatorMutator(x, Q, f)
         x = x + timestep*(x.*xp)
         x = x/norm(x, 1)
         printsummary(x)
     end
 end
 
-# x: quasispecies population vector
+# x: population vector
+# Q: mutation matrix
+# f: function of x that returns fitness vector
+function simulate{T<:Float64}(x::Array{T,1}, Q::Array{T,2}, f::Function, numsteps, timestep::T=1.0)
+    for i = 1:numsteps
+        xp = replicatorMutator(x, Q, f(x))
+        x = x + timestep*(x.*xp)
+        x = x/norm(x, 1)
+        printsummary(x)
+    end
+end
+
+# x: population vector
 # f: fitness vector
 function simulate{T<:Float64}(x::Array{T,1}, f::Array{T,1}, numsteps, timestep::T=1.0)
     for i = 1:numsteps
-        xp = quasispecies(x, f)
+        xp = replicator(x, f)
+        x = x + timestep*(x.*xp)
+        x = x/norm(x, 1)
+        printsummary(x)
+    end
+end
+
+# x: population vector
+# f: function of x that returns fitness vector
+function simulate{T<:Float64}(x::Array{T,1}, f::Function, numsteps, timestep::T=1.0)
+    for i = 1:numsteps
+        xp = replicator(x, f(x))
         x = x + timestep*(x.*xp)
         x = x/norm(x, 1)
         printsummary(x)
