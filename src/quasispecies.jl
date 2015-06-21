@@ -4,7 +4,7 @@
 
 module Quasispecies
 
-export printsummary, quasispecies, simulate
+export printsummary, quasispecies, bary2cart, simulate
 
 # dx_i/dt = sum_{j=0 to n} q_ij*f_j*x_j - phi*x_i = Q.*f*x - phi*x = W*x - phi*x
 # x_i: fraction of infinite population as quasispecies i
@@ -18,6 +18,35 @@ export printsummary, quasispecies, simulate
 function printsummary(a)
     # summary generates a summary of an object
     println(summary(a), ":\n", repr(a))
+end
+
+
+# Generate a quasispecies mutation matrix
+# len: number of binary characters in the genome
+# mutProb: probability of a single SNP
+function quasispecies(len, mutProb)
+    
+end
+
+
+# Transform from barycentric to Cartesian coordinates
+function bary2cart(r::Array{Float64,1})
+    # x1 = 0.0
+    # x2 = 0.5
+    # x3 = 1.0
+    # y1 = 0.0
+    # y2 = sqrt(3)/2
+    # y3 = 0.0
+    T = [0.0 0.5 1.0;
+         0.0 sqrt(3)/2 0.0]
+    # x = r1*x1 + r2*x2 + r3*x3
+    # y = r1*y1 + r2*y2 + r3*y3
+    coord = T*r
+    return coord[1], coord[2]
+end
+
+function bary2cart(r1, r2, r3)
+    bary2cart([r1, r2, r3])
 end
 
 

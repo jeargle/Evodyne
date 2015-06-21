@@ -48,3 +48,20 @@ println("\n*** simulate 3 ***\n")
 simulate(x2, Q2, f2, numsteps, timestep)
 println("\n*** simulate 4 ***\n")
 simulate(x2, f2, numsteps, timestep)
+
+# Transform from barycentric to Cartesian coordinates
+r1, r2, r3 = 0.5, 0.4, 0.1
+x, y = bary2cart(r1, r2, r3)
+println("(", r1, ", ", r2, ", ", r3, ") -> (", x, ", ", y, ")")
+r1, r2, r3 = 1.0, 0.0, 0.0
+x, y = bary2cart(r1, r2, r3)
+println("(", r1, ", ", r2, ", ", r3, ") -> (", x, ", ", y, ")")
+r1, r2, r3 = 0.0, 1.0, 0.0
+x, y = bary2cart(r1, r2, r3)
+println("(", r1, ", ", r2, ", ", r3, ") -> (", x, ", ", y, ")")
+r1, r2, r3 = 0.0, 0.0, 1.0
+x, y = bary2cart(r1, r2, r3)
+println("(", r1, ", ", r2, ", ", r3, ") -> (", x, ", ", y, ")")
+r1, r2, r3 = 1/3, 1/3, 1/3
+x, y = bary2cart(r1, r2, r3)
+println("(", r1, ", ", r2, ", ", r3, ") -> (", x, ", ", y, ")")
