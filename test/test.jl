@@ -65,3 +65,10 @@ println("(", r1, ", ", r2, ", ", r3, ") -> (", x, ", ", y, ")")
 r1, r2, r3 = 1/3, 1/3, 1/3
 x, y = bary2cart(r1, r2, r3)
 println("(", r1, ", ", r2, ", ", r3, ") -> (", x, ", ", y, ")")
+
+# Quasispecies mutation matrix builder
+Q3 = quasispecies(4, 0.1)
+Q4 = quasispecies(8, 0.1)
+
+printsummary(Q3)
+printsummary(Q4)

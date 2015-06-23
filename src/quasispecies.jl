@@ -21,11 +21,27 @@ function printsummary(a)
 end
 
 
+# Get the number of bits different between two bitstrings
+function bitdiff(b1, b2)
+    length(matchall(r"1", bits((b1|b2)&~(b1&b2))))
+end
+
+
 # Generate a quasispecies mutation matrix
 # len: number of binary characters in the genome
 # mutProb: probability of a single SNP
-function quasispecies(len, mutProb)
-    
+function quasispecies(len::Int, mutProb::Float64)
+    Q = ones(Float64, len, len)
+    genomes = [0x0:convert(Uint,len-1)]
+    for i in [1:len]
+        for j in [i+1:len]
+            diffbits = bitdiff(genomes[i], genomes[j])
+            prob = mutProb^diffbits
+            Q[i,j] = prob
+            Q[j,i] = prob
+        end
+    end
+    return Q
 end
 
 
