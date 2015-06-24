@@ -31,16 +31,23 @@ end
 # len: number of binary characters in the genome
 # mutProb: probability of a single SNP
 function quasispecies(len::Int, mutProb::Float64)
-    Q = ones(Float64, len, len)
-    genomes = [0x0:convert(Uint,len-1)]
-    for i in [1:len]
-        for j in [i+1:len]
+    bitslen = 2^len
+    Q = zeros(Float64, bitslen, bitslen)
+    genomes = [0x0:convert(Uint,bitslen-1)]
+    for i in [1:bitslen]
+        for j in [i+1:bitslen]
             diffbits = bitdiff(genomes[i], genomes[j])
             prob = mutProb^diffbits
             Q[i,j] = prob
             Q[j,i] = prob
         end
     end
+
+    remainder = 1.0 - sum(Q[:,1])
+    for i in [1:bitslen]
+        Q[i,i] = remainder
+    end
+    
     return Q
 end
 
