@@ -21,7 +21,8 @@ function printsummary(a)
 end
 
 function printmatrix(a)
-    x, y = size(a)
+    x = size(a, 1)
+    y = size(a, 2)
     for i in [1:x]
         for j in [1:y]
             @printf "%4.3f " a[i,j]

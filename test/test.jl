@@ -37,8 +37,10 @@ timestep = 0.2        # timestep
 numsteps = 10
 
 println("\n*** print arrays ***\n")
-printsummary(x1)
-printsummary(x2)
+# printsummary(x1)
+# printsummary(x2)
+printmatrix(x1)
+printmatrix(x2)
 
 # Run quasispecies simulation
 println("\n*** simulate 1 ***\n")
@@ -51,6 +53,7 @@ println("\n*** simulate 4 ***\n")
 simulate(x2, f2, numsteps, timestep)
 
 # Transform from barycentric to Cartesian coordinates
+println("\n*** barycentric to Cartesian coordinates ***\n")
 r1, r2, r3 = 0.5, 0.4, 0.1
 x, y = bary2cart(r1, r2, r3)
 println("(", r1, ", ", r2, ", ", r3, ") -> (", x, ", ", y, ")")
@@ -68,6 +71,7 @@ x, y = bary2cart(r1, r2, r3)
 println("(", r1, ", ", r2, ", ", r3, ") -> (", x, ", ", y, ")")
 
 # Quasispecies mutation matrix builder
+println("\n*** Quasispecies matrices ***\n")
 Q3 = quasispecies(2, 0.1)
 Q4 = quasispecies(4, 0.1)
 
