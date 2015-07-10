@@ -34,8 +34,9 @@ x2 = [0.1, 0.9]
 
      
 timestep = 0.2        # timestep
-numsteps = 20
+numsteps = 10
 
+println("\n*** print arrays ***\n")
 printsummary(x1)
 printsummary(x2)
 
@@ -70,5 +71,5 @@ println("(", r1, ", ", r2, ", ", r3, ") -> (", x, ", ", y, ")")
 Q3 = quasispecies(2, 0.1)
 Q4 = quasispecies(4, 0.1)
 
-printsummary(Q3)
-printsummary(Q4)
+printmatrix(Q3)
+printmatrix(Q4)

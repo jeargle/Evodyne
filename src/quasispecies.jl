@@ -4,7 +4,7 @@
 
 module Quasispecies
 
-export printsummary, quasispecies, bary2cart, simulate
+export printsummary, printmatrix, quasispecies, bary2cart, simulate
 
 # dx_i/dt = sum_{j=0 to n} q_ij*f_j*x_j - phi*x_i = Q.*f*x - phi*x = W*x - phi*x
 # x_i: fraction of infinite population as quasispecies i
@@ -18,6 +18,16 @@ export printsummary, quasispecies, bary2cart, simulate
 function printsummary(a)
     # summary generates a summary of an object
     println(summary(a), ":\n", repr(a))
+end
+
+function printmatrix(a)
+    x, y = size(a)
+    for i in [1:x]
+        for j in [1:y]
+            @printf "%4.3f " a[i,j]
+        end
+        print("\n")
+    end
 end
 
 
