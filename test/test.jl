@@ -55,20 +55,20 @@ simulate(x2, f2, numsteps, timestep)
 # Transform from barycentric to Cartesian coordinates
 println("\n*** barycentric to Cartesian coordinates ***\n")
 r1, r2, r3 = 0.5, 0.4, 0.1
-x, y = bary2cart(r1, r2, r3)
-println("(", r1, ", ", r2, ", ", r3, ") -> (", x, ", ", y, ")")
+cartCoord = bary2cart(r1, r2, r3)
+println("(", r1, ", ", r2, ", ", r3, ") -> (", cartCoord[1], ", ", cartCoord[2], ")")
 r1, r2, r3 = 1.0, 0.0, 0.0
-x, y = bary2cart(r1, r2, r3)
-println("(", r1, ", ", r2, ", ", r3, ") -> (", x, ", ", y, ")")
+cartCoord = bary2cart(r1, r2, r3)
+println("(", r1, ", ", r2, ", ", r3, ") -> (", cartCoord[1], ", ", cartCoord[2], ")")
 r1, r2, r3 = 0.0, 1.0, 0.0
-x, y = bary2cart(r1, r2, r3)
-println("(", r1, ", ", r2, ", ", r3, ") -> (", x, ", ", y, ")")
+cartCoord = bary2cart(r1, r2, r3)
+println("(", r1, ", ", r2, ", ", r3, ") -> (", cartCoord[1], ", ", cartCoord[2], ")")
 r1, r2, r3 = 0.0, 0.0, 1.0
-x, y = bary2cart(r1, r2, r3)
-println("(", r1, ", ", r2, ", ", r3, ") -> (", x, ", ", y, ")")
+cartCoord = bary2cart(r1, r2, r3)
+println("(", r1, ", ", r2, ", ", r3, ") -> (", cartCoord[1], ", ", cartCoord[2], ")")
 r1, r2, r3 = 1/3, 1/3, 1/3
-x, y = bary2cart(r1, r2, r3)
-println("(", r1, ", ", r2, ", ", r3, ") -> (", x, ", ", y, ")")
+cartCoord = bary2cart(r1, r2, r3)
+println("(", r1, ", ", r2, ", ", r3, ") -> (", cartCoord[1], ", ", cartCoord[2], ")")
 
 # Quasispecies mutation matrix builder
 println("\n*** Quasispecies matrices ***\n")

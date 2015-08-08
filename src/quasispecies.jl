@@ -76,7 +76,7 @@ function bary2cart(r::Array{Float64,1})
     # x = r1*x1 + r2*x2 + r3*x3
     # y = r1*y1 + r2*y2 + r3*y3
     coord = T*r
-    return coord[1], coord[2]
+    return [coord[1] coord[2]]
 end
 
 function bary2cart(r1, r2, r3)
@@ -109,46 +109,62 @@ end
 # Q: mutation matrix
 # f: fitness vector
 function simulate{T<:Float64}(x::Array{T,1}, Q::Array{T,2}, f::Array{T,1}, numsteps, timestep::T=1.0)
+    traj = zeros(Float64, numsteps+1, size(x,1))
+    traj[1,:] = x
     for i = 1:numsteps
         xp = replicatorMutator(x, Q, f)
         x = x + timestep*(x.*xp)
         x = x/norm(x, 1)
-        printsummary(x)
+        # printsummary(x)
+        traj[i+1,:] = x
     end
+    return traj
 end
 
 # x: population vector
 # Q: mutation matrix
 # f: function of x that returns fitness vector
 function simulate{T<:Float64}(x::Array{T,1}, Q::Array{T,2}, f::Function, numsteps, timestep::T=1.0)
+    traj = zeros(Float64, numsteps+1, size(x,1))
+    traj[1,:] = x
     for i = 1:numsteps
         xp = replicatorMutator(x, Q, f(x))
         x = x + timestep*(x.*xp)
         x = x/norm(x, 1)
         printsummary(x)
+        traj[i+1,:] = x
     end
+    return traj
 end
 
 # x: population vector
 # f: fitness vector
 function simulate{T<:Float64}(x::Array{T,1}, f::Array{T,1}, numsteps, timestep::T=1.0)
+    traj = zeros(Float64, numsteps+1, size(x,1))
+    traj[1,:] = x
     for i = 1:numsteps
         xp = replicator(x, f)
         x = x + timestep*(x.*xp)
         x = x/norm(x, 1)
         printsummary(x)
+        traj[i+1,:] = x
     end
+    return traj
 end
 
 # x: population vector
 # f: function of x that returns fitness vector
 function simulate{T<:Float64}(x::Array{T,1}, f::Function, numsteps, timestep::T=1.0)
+    traj = zeros(Float64, numsteps+1, size(x,1))
+    traj[1,:] = x
     for i = 1:numsteps
         xp = replicator(x, f(x))
         x = x + timestep*(x.*xp)
         x = x/norm(x, 1)
         printsummary(x)
+        traj[i+1,:] = x
     end
+    return traj
 end
 
 end
