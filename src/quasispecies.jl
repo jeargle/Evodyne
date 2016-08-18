@@ -6,6 +6,11 @@ module Quasispecies
 
 export printsummary, printmatrix, quasispecies, bary2cart, simulate
 
+
+# =======================================
+# General form for quasispecies simulations
+# =======================================
+
 # dx_i/dt = sum_{j=0 to n} q_ij*f_j*x_j - phi*x_i = Q.*f*x - phi*x = W*x - phi*x
 # x_i: fraction of infinite population as quasispecies i
 # sum(x) = 1.0
@@ -14,6 +19,11 @@ export printsummary, printmatrix, quasispecies, bary2cart, simulate
 # phi = dot(x, f)
 # Q = [q_ij]: mutation matrix
 # W = [w_ij] = Q.*f: mutation-selection matrix
+
+
+# =======================================
+# Reporting
+# =======================================
 
 function printsummary(a)
     # summary generates a summary of an object
@@ -95,7 +105,7 @@ function replicatorMutator{T<:Float64}(x::Array{T,1}, Q::Array{T,2}, f::Array{T,
     return Q*(f.*x) - phi*x
 end
 
-# Replicator equation
+# Replicator equation (no mutation)
 # x: quasispecies population vector
 # f: fitness vector
 function replicator{T<:Float64}(x::Array{T,1}, f::Array{T,1})
@@ -105,9 +115,17 @@ function replicator{T<:Float64}(x::Array{T,1}, f::Array{T,1})
 end
 
 
+
+# =======================================
+# Simulation functions for different scenarios
+# =======================================
+
+# Replicator/mutator simulation with fitness vector
 # x: population vector
 # Q: mutation matrix
 # f: fitness vector
+# numsteps: number of steps to simulate
+# timestep: time for a single step
 function simulate{T<:Float64}(x::Array{T,1}, Q::Array{T,2}, f::Array{T,1}, numsteps, timestep::T=1.0)
     traj = zeros(Float64, numsteps+1, size(x,1))
     traj[1,:] = x
@@ -121,9 +139,12 @@ function simulate{T<:Float64}(x::Array{T,1}, Q::Array{T,2}, f::Array{T,1}, numst
     return traj
 end
 
+# Replicator/mutator simulation with fitness function
 # x: population vector
 # Q: mutation matrix
 # f: function of x that returns fitness vector
+# numsteps: number of steps to simulate
+# timestep: time for a single step
 function simulate{T<:Float64}(x::Array{T,1}, Q::Array{T,2}, f::Function, numsteps, timestep::T=1.0)
     traj = zeros(Float64, numsteps+1, size(x,1))
     traj[1,:] = x
@@ -137,8 +158,11 @@ function simulate{T<:Float64}(x::Array{T,1}, Q::Array{T,2}, f::Function, numstep
     return traj
 end
 
+# Replicator simulation with fitness vector
 # x: population vector
 # f: fitness vector
+# numsteps: number of steps to simulate
+# timestep: time for a single step
 function simulate{T<:Float64}(x::Array{T,1}, f::Array{T,1}, numsteps, timestep::T=1.0)
     traj = zeros(Float64, numsteps+1, size(x,1))
     traj[1,:] = x
@@ -152,8 +176,11 @@ function simulate{T<:Float64}(x::Array{T,1}, f::Array{T,1}, numsteps, timestep::
     return traj
 end
 
+# Replicator simulation with fitness function
 # x: population vector
 # f: function of x that returns fitness vector
+# numsteps: number of steps to simulate
+# timestep: time for a single step
 function simulate{T<:Float64}(x::Array{T,1}, f::Function, numsteps, timestep::T=1.0)
     traj = zeros(Float64, numsteps+1, size(x,1))
     traj[1,:] = x
