@@ -33,8 +33,8 @@ end
 function printmatrix(a)
     x = size(a, 1)
     y = size(a, 2)
-    for i in [1:x]
-        for j in [1:y]
+    for i = 1:x
+        for j = 1:y
             @printf "%4.3f " a[i,j]
         end
         print("\n")
@@ -54,9 +54,9 @@ end
 function quasispecies(len::Int, mutProb::Float64)
     bitslen = 2^len
     Q = zeros(Float64, bitslen, bitslen)
-    genomes = [0x0:convert(Uint,bitslen-1)]
-    for i in [1:bitslen]
-        for j in [i+1:bitslen]
+    genomes = collect(0x0:convert(UInt,bitslen-1))
+    for i = 1:bitslen
+        for j = i+1:bitslen
             diffbits = bitdiff(genomes[i], genomes[j])
             prob = mutProb^diffbits
             Q[i,j] = prob
@@ -65,7 +65,7 @@ function quasispecies(len::Int, mutProb::Float64)
     end
 
     remainder = 1.0 - sum(Q[:,1])
-    for i in [1:bitslen]
+    for i = 1:bitslen
         Q[i,i] = remainder
     end
     
