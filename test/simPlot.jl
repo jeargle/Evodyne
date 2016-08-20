@@ -77,7 +77,7 @@ draw(SVG("myplot.svg", 6inch, 6inch),
           layer(x=[0.0, 1.0, 0.5, 0.0],
                 y=[0.0, 0.0, sqrt(3.0)/2, 0.0],
                 Geom.line(preserve_order=false),
-                Theme(default_color=color("black"))
+                Theme(default_color=colorant"black")
                 ),
           Scale.x_continuous(minvalue=0.0, maxvalue=1.0),
           Scale.y_continuous(minvalue=0.0, maxvalue=1.0)
