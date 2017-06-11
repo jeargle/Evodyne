@@ -1,5 +1,5 @@
 # John Eargle (mailto: jeargle at gmail.com)
-# 2015
+# 2015-2017
 # quasispecies
 
 module Quasispecies
