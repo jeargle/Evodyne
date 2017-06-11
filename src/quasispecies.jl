@@ -4,7 +4,7 @@
 
 module Quasispecies
 
-export printsummary, printmatrix, hawk_dove, quasispecies, bary2cart, simulate
+export printsummary, printmatrix, rock_paper_scissors, hawk_dove, quasispecies, bary2cart, simulate
 
 
 # =======================================
@@ -45,6 +45,19 @@ end
 # Get the number of bits different between two bitstrings
 function bitdiff(b1, b2)
     length(matchall(r"1", bits((b1|b2)&~(b1&b2))))
+end
+
+
+# Build a replicator fitness function for Rock Paper Scissors.
+# b: benefit of winning fight
+# c: cost of losing fight
+function rock_paper_scissors(b=1.0, c=1.0)
+    # a: rock-paper-scissors game theoretic payoff matrix
+    # x: species frequency vector
+    a = [0.0  -c   b;
+           b 0.0  -c;
+          -c   b 0.0]
+    return x -> a*x
 end
 
 

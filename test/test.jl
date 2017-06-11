@@ -71,6 +71,38 @@ function test_simulate()
     simulate(x2, f2new(a), numsteps, timestep)
 end
 
+function test_rock_paper_scissors()
+    println()
+    println("***")
+    println("*** Simulate Rock-Paper-Scissors Scenarios ***")
+    println("***")
+    println()
+    
+    timestep = 0.2        # timestep
+    numsteps = 20
+    
+    # x must sum to 1
+    x1 = [0.7, 0.2, 0.1]
+    x2 = [0.2, 0.1, 0.7]
+    x3 = [0.1, 0.7, 0.2]
+
+    println("*** print species arrays ***")
+    printmatrix(x1)
+    printmatrix(x2)
+    printmatrix(x3)
+
+    rps1 = rock_paper_scissors()
+
+    println("\n*** simulate 1 ***")
+    simulate(x1, rps1, numsteps, timestep)
+
+    println("\n*** simulate 2 ***")
+    simulate(x2, rps1, numsteps, timestep)
+
+    println("\n*** simulate 3 ***")
+    simulate(x3, rps1, numsteps, timestep)
+end
+
 function test_hawk_dove()
     println()
     println("***")
@@ -151,7 +183,8 @@ end
 function main()
     # test_bary2cart()
     # test_simulate()
-    test_hawk_dove()
+    test_rock_paper_scissors()
+    # test_hawk_dove()
     # test_quasispecies()
 end
 
