@@ -4,7 +4,7 @@
 
 module Quasispecies
 
-export printsummary, printmatrix, quasispecies, bary2cart, simulate
+export printsummary, printmatrix, hawk_dove, quasispecies, bary2cart, simulate
 
 
 # =======================================
@@ -45,6 +45,18 @@ end
 # Get the number of bits different between two bitstrings
 function bitdiff(b1, b2)
     length(matchall(r"1", bits((b1|b2)&~(b1&b2))))
+end
+
+
+# Build a replicator fitness function for the Hawk-Dove game.
+# b: benefit of winning fight
+# c: cost of losing fight
+function hawk_dove(b, c)
+    # a: hawk-dove game theoretic payoff matrix
+    # x: species frequency vector
+    a = [(b-c)/2 b;
+         0.0 b/2]
+    return x -> a*x
 end
 
 

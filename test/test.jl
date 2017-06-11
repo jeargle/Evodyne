@@ -12,15 +12,24 @@ function f2(x::Array{Float64,1})
     return a*x
 end
 
+function f2new(a)
+    # a: game theoretic payoff matrix
+    # x: species frequency vector
+    return x -> a*x
+end
+
 function test_simulate()
     # Run quasispecies simulation
     println()
     println("***")
-    println("*** Simulate different scenarios ***")
+    println("*** Simulate Different Scenarios ***")
     println("***")
     println()
     
-    # Quasispecies columns and rows must sum to 1
+    # Quasispecies mutation matrix columns and rows must sum to 1
+    # Q1 = [0.9 0.05 0.05;
+    #       0.05 0.9 0.05;
+    #       0.05 0.05 0.9]
     Q1 = [0.8 0.1 0.1;
           0.1 0.8 0.1;
           0.1 0.1 0.8]
@@ -49,12 +58,60 @@ function test_simulate()
 
     println("\n*** simulate 1 ***")
     simulate(x1, Q1, f1, numsteps, timestep)
+
     println("\n*** simulate 2 ***")
     simulate(x1, f1, numsteps, timestep)
+
     println("\n*** simulate 3 ***")
     simulate(x2, Q2, f2, numsteps, timestep)
+
     println("\n*** simulate 4 ***")
-    simulate(x2, f2, numsteps, timestep)
+    a = [0.8 0.1;
+         0.1 0.8]
+    simulate(x2, f2new(a), numsteps, timestep)
+end
+
+function test_hawk_dove()
+    println()
+    println("***")
+    println("*** Simulate Hawk-Dove Scenarios ***")
+    println("***")
+    println()
+    
+    timestep = 0.2        # timestep
+    numsteps = 20
+    
+    # x must sum to 1
+    x1 = [0.8, 0.2]
+    x2 = [0.2, 0.8]
+    x3 = [0.5, 0.5]
+
+    println("*** print species arrays ***")
+    # printsummary(x1)
+    printmatrix(x1)
+    printmatrix(x2)
+    printmatrix(x3)
+
+    hd1 = hawk_dove(2, 1)
+    hd2 = hawk_dove(1, 5)
+
+    println("\n*** simulate 1 ***")
+    simulate(x1, hd1, numsteps, timestep)
+
+    println("\n*** simulate 2 ***")
+    simulate(x1, hd2, numsteps, timestep)
+
+    println("\n*** simulate 3 ***")
+    simulate(x2, hd1, numsteps, timestep)
+
+    println("\n*** simulate 4 ***")
+    simulate(x2, hd2, numsteps, timestep)
+
+    println("\n*** simulate 5 ***")
+    simulate(x3, hd1, numsteps, timestep)
+
+    println("\n*** simulate 6 ***")
+    simulate(x3, hd2, numsteps, timestep)
 end
 
 function print_bary2cart(r1, r2, r3)
@@ -83,9 +140,6 @@ function test_quasispecies()
     println("*** Quasispecies matrices ***")
     println("***")
     println()
-    Q1 = [0.9 0.05 0.05;
-          0.05 0.9 0.05;
-          0.05 0.05 0.9]
     Q1 = quasispecies(2, 0.1)
     Q2 = quasispecies(4, 0.1)
     
@@ -95,9 +149,10 @@ end
 
 
 function main()
-    test_bary2cart()
-    test_simulate()
-    test_quasispecies()
+    # test_bary2cart()
+    # test_simulate()
+    test_hawk_dove()
+    # test_quasispecies()
 end
 
 main()
