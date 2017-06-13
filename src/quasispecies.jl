@@ -4,8 +4,9 @@
 
 module Quasispecies
 
-export printsummary, printmatrix, rock_paper_scissors
-export hawk_dove, chicken, quasispecies, bary2cart, simulate
+export printsummary, printmatrix
+export rock_paper_scissors, hawk_dove, chicken, snowdrift
+export quasispecies, bary2cart, simulate
 
 
 # =======================================
@@ -82,6 +83,18 @@ function chicken(b, c)
     # x: species frequency vector
     a = [-c b;
          0.0 b/2]
+    return x -> a*x
+end
+
+
+# Build a replicator fitness function for the Snowdrift game.
+# b: benefit of winning fight
+# c: cost of losing fight
+function snowdrift(b, c)
+    # a: snowdrift game theoretic payoff matrix
+    # x: species frequency vector
+    a = [(b-c/2) (b-c);
+         b 0.0]
     return x -> a*x
 end
 

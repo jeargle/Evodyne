@@ -36,7 +36,7 @@ function test_simulate()
     Q2 = [0.8 0.1;
           0.1 0.8]
     
-    timestep = 0.2        # timestep
+    timestep = 0.2
     numsteps = 10
     
     # x must sum to 1
@@ -78,7 +78,7 @@ function test_rock_paper_scissors()
     println("***")
     println()
     
-    timestep = 0.2        # timestep
+    timestep = 0.2
     numsteps = 20
     
     # x must sum to 1
@@ -110,7 +110,7 @@ function test_hawk_dove()
     println("***")
     println()
     
-    timestep = 0.2        # timestep
+    timestep = 0.2
     numsteps = 20
     
     # x must sum to 1
@@ -153,7 +153,7 @@ function test_chicken()
     println("***")
     println()
     
-    timestep = 0.2        # timestep
+    timestep = 0.2
     numsteps = 20
     
     # x must sum to 1
@@ -186,6 +186,48 @@ function test_chicken()
 
     println("\n*** simulate 6 ***")
     simulate(x3, c2, numsteps, timestep)
+end
+
+function test_snowdrift()
+    println()
+    println("***")
+    println("*** Simulate Snowdrift Scenarios ***")
+    println("***")
+    println()
+    
+    timestep = 0.2
+    numsteps = 20
+    
+    # x must sum to 1
+    x1 = [0.8, 0.2]
+    x2 = [0.2, 0.8]
+    x3 = [0.5, 0.5]
+
+    println("*** print species arrays ***")
+    printmatrix(x1)
+    printmatrix(x2)
+    printmatrix(x3)
+
+    s1 = snowdrift(2, 1)
+    s2 = snowdrift(1, 5)
+
+    println("\n*** simulate 1 ***")
+    simulate(x1, s1, numsteps, timestep)
+
+    println("\n*** simulate 2 ***")
+    simulate(x1, s2, numsteps, timestep)
+
+    println("\n*** simulate 3 ***")
+    simulate(x2, s1, numsteps, timestep)
+
+    println("\n*** simulate 4 ***")
+    simulate(x2, s2, numsteps, timestep)
+
+    println("\n*** simulate 5 ***")
+    simulate(x3, s1, numsteps, timestep)
+
+    println("\n*** simulate 6 ***")
+    simulate(x3, s2, numsteps, timestep)
 end
 
 function print_bary2cart(r1, r2, r3)
@@ -227,7 +269,8 @@ function main()
     # test_simulate()
     # test_rock_paper_scissors()
     # test_hawk_dove()
-    test_chicken()
+    # test_chicken()
+    test_snowdrift()
     # test_quasispecies()
 end
 
