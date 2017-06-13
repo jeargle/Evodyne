@@ -146,6 +146,48 @@ function test_hawk_dove()
     simulate(x3, hd2, numsteps, timestep)
 end
 
+function test_chicken()
+    println()
+    println("***")
+    println("*** Simulate Chicken Scenarios ***")
+    println("***")
+    println()
+    
+    timestep = 0.2        # timestep
+    numsteps = 20
+    
+    # x must sum to 1
+    x1 = [0.8, 0.2]
+    x2 = [0.2, 0.8]
+    x3 = [0.5, 0.5]
+
+    println("*** print species arrays ***")
+    printmatrix(x1)
+    printmatrix(x2)
+    printmatrix(x3)
+
+    c1 = chicken(2, 1)
+    c2 = chicken(1, 5)
+
+    println("\n*** simulate 1 ***")
+    simulate(x1, c1, numsteps, timestep)
+
+    println("\n*** simulate 2 ***")
+    simulate(x1, c2, numsteps, timestep)
+
+    println("\n*** simulate 3 ***")
+    simulate(x2, c1, numsteps, timestep)
+
+    println("\n*** simulate 4 ***")
+    simulate(x2, c2, numsteps, timestep)
+
+    println("\n*** simulate 5 ***")
+    simulate(x3, c1, numsteps, timestep)
+
+    println("\n*** simulate 6 ***")
+    simulate(x3, c2, numsteps, timestep)
+end
+
 function print_bary2cart(r1, r2, r3)
     cartCoord = bary2cart(r1, r2, r3)
     println("(", r1, ", ", r2, ", ", r3, ") -> (", cartCoord[1], ", ", cartCoord[2], ")")
@@ -183,8 +225,9 @@ end
 function main()
     # test_bary2cart()
     # test_simulate()
-    test_rock_paper_scissors()
+    # test_rock_paper_scissors()
     # test_hawk_dove()
+    test_chicken()
     # test_quasispecies()
 end
 

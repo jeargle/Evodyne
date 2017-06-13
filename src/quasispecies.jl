@@ -4,7 +4,8 @@
 
 module Quasispecies
 
-export printsummary, printmatrix, rock_paper_scissors, hawk_dove, quasispecies, bary2cart, simulate
+export printsummary, printmatrix, rock_paper_scissors
+export hawk_dove, chicken, quasispecies, bary2cart, simulate
 
 
 # =======================================
@@ -68,6 +69,18 @@ function hawk_dove(b, c)
     # a: hawk-dove game theoretic payoff matrix
     # x: species frequency vector
     a = [(b-c)/2 b;
+         0.0 b/2]
+    return x -> a*x
+end
+
+
+# Build a replicator fitness function for the Chicken game.
+# b: benefit of winning fight
+# c: cost of losing fight
+function chicken(b, c)
+    # a: chicken game theoretic payoff matrix
+    # x: species frequency vector
+    a = [-c b;
          0.0 b/2]
     return x -> a*x
 end
