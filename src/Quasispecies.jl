@@ -3,6 +3,7 @@
 # quasispecies
 
 module Quasispecies
+# module Evodyne
 
 export printsummary, printmatrix
 export rock_paper_scissors, hawk_dove, chicken, snowdrift
@@ -119,7 +120,7 @@ function quasispecies(len::Int, mutProb::Float64)
     for i = 1:bitslen
         Q[i,i] = remainder
     end
-    
+
     return Q
 end
 
