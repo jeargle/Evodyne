@@ -1,11 +1,10 @@
 # John Eargle (mailto: jeargle at gmail.com)
-# 2015-2017
+# 2015-2018
 # quasispecies
 
 module Quasispecies
-# module Evodyne
 
-export printsummary, printmatrix
+export print_summary, print_matrix
 export rock_paper_scissors, hawk_dove, chicken, snowdrift
 export quasispecies, bary2cart, simulate
 
@@ -28,12 +27,23 @@ export quasispecies, bary2cart, simulate
 # Reporting
 # =======================================
 
-function printsummary(a)
+"""
+    print_summary(a)
+
+Print the summary for an object a.
+"""
+function print_summary(a)
     # summary generates a summary of an object
     println(summary(a), ":\n", repr(a))
 end
 
-function printmatrix(a)
+
+"""
+    print_matrix(a)
+
+Print the matrix a.
+"""
+function print_matrix(a)
     x = size(a, 1)
     y = size(a, 2)
     for i = 1:x
@@ -45,15 +55,25 @@ function printmatrix(a)
 end
 
 
-# Get the number of bits different between two bitstrings
+"""
+    bitdiff(b1, b2)
+
+Get the number of bits different between two bitstrings.
+"""
 function bitdiff(b1, b2)
     length(matchall(r"1", bits((b1|b2)&~(b1&b2))))
 end
 
 
-# Build a replicator fitness function for Rock Paper Scissors.
-# b: benefit of winning fight
-# c: cost of losing fight
+"""
+    rock_paper_scissors(b, c)
+
+Build a replicator fitness function for Rock Paper Scissors.
+
+# Arguments
+- b benefit of winning fight
+- c cost of losing fight
+"""
 function rock_paper_scissors(b=1.0, c=1.0)
     # a: rock-paper-scissors game theoretic payoff matrix
     # x: species frequency vector
@@ -64,9 +84,15 @@ function rock_paper_scissors(b=1.0, c=1.0)
 end
 
 
-# Build a replicator fitness function for the Hawk-Dove game.
-# b: benefit of winning fight
-# c: cost of losing fight
+"""
+    hawk_dove(b, c)
+
+Build a replicator fitness function for the Hawk-Dove game.
+
+# Arguments
+- b benefit of winning fight
+- c cost of losing fight
+"""
 function hawk_dove(b, c)
     # a: hawk-dove game theoretic payoff matrix
     # x: species frequency vector
@@ -76,9 +102,15 @@ function hawk_dove(b, c)
 end
 
 
-# Build a replicator fitness function for the Chicken game.
-# b: benefit of winning fight
-# c: cost of losing fight
+"""
+    chicken(b, c)
+
+Build a replicator fitness function for the Chicken game.
+
+# Arguments
+- b benefit of winning fight
+- c cost of losing fight
+"""
 function chicken(b, c)
     # a: chicken game theoretic payoff matrix
     # x: species frequency vector
@@ -88,9 +120,15 @@ function chicken(b, c)
 end
 
 
-# Build a replicator fitness function for the Snowdrift game.
-# b: benefit of winning fight
-# c: cost of losing fight
+"""
+    snowdrift(b, c)
+
+Build a replicator fitness function for the Snowdrift game.
+
+# Arguments
+- b benefit of winning fight
+- c cost of losing fight
+"""
 function snowdrift(b, c)
     # a: snowdrift game theoretic payoff matrix
     # x: species frequency vector
@@ -100,9 +138,15 @@ function snowdrift(b, c)
 end
 
 
-# Generate a quasispecies mutation matrix
-# len: number of binary characters in the genome
-# mutProb: probability of a single SNP
+"""
+    quasispecies(len, mutProb)
+
+Generate a quasispecies mutation matrix.
+
+# Arguments
+- len::Int number of binary characters in the genome
+- mutProb::Float64 probability of a single SNP
+"""
 function quasispecies(len::Int, mutProb::Float64)
     bitslen = 2^len
     Q = zeros(Float64, bitslen, bitslen)
@@ -125,7 +169,11 @@ function quasispecies(len::Int, mutProb::Float64)
 end
 
 
-# Transform from barycentric to Cartesian coordinates
+"""
+    bary2cart(r)
+
+Transform from barycentric to Cartesian coordinates.
+"""
 function bary2cart(r::Array{Float64,1})
     # x1 = 0.0
     # x2 = 0.5
@@ -146,20 +194,32 @@ function bary2cart(r1, r2, r3)
 end
 
 
-# Quasispecies equation (replicator/mutator)
-# rate of change for x
-# x: population vector
-# Q: mutation matrix
-# f: fitness vector
+"""
+    replicatorMutator(x, Q, f)
+
+Quasispecies equation (replicator/mutator) rate of change for x
+
+# Arguments
+- x population vector
+- Q mutation matrix
+- f fitness vector
+"""
 function replicatorMutator{T<:Float64}(x::Array{T,1}, Q::Array{T,2}, f::Array{T,1})
     phi = dot(f, x)
     println("  phi: ", phi)
     return Q*(f.*x) - phi*x
 end
 
-# Replicator equation (no mutation)
-# x: quasispecies population vector
-# f: fitness vector
+
+"""
+    replicator(x, f)
+
+Replicator equation (no mutation)
+
+# Arguments
+- x quasispecies population vector
+- f fitness vector
+"""
 function replicator{T<:Float64}(x::Array{T,1}, f::Array{T,1})
     phi = dot(f, x)
     println("  phi: ", phi)
@@ -172,12 +232,18 @@ end
 # Simulation functions for different scenarios
 # =======================================
 
-# Replicator/mutator simulation with fitness vector
-# x: population vector
-# Q: mutation matrix
-# f: fitness vector
-# numsteps: number of steps to simulate
-# timestep: time for a single step
+"""
+    simulate(x, Q, f, numsteps, timestep)
+
+Replicator/mutator simulation with fitness vector.
+
+# Arguments
+- x population vector
+- Q mutation matrix
+- f fitness vector
+- numsteps number of steps to simulate
+- timestep time for a single step
+"""
 function simulate{T<:Float64}(x::Array{T,1}, Q::Array{T,2}, f::Array{T,1}, numsteps, timestep::T=1.0)
     traj = zeros(Float64, numsteps+1, size(x,1))
     traj[1,:] = x
@@ -185,18 +251,25 @@ function simulate{T<:Float64}(x::Array{T,1}, Q::Array{T,2}, f::Array{T,1}, numst
         xp = replicatorMutator(x, Q, f)
         x = x + timestep*(x.*xp)
         x = x/norm(x, 1)
-        # printsummary(x)
+        # print_summary(x)
         traj[i+1,:] = x
     end
     return traj
 end
 
-# Replicator/mutator simulation with fitness function
-# x: population vector
-# Q: mutation matrix
-# f: function of x that returns fitness vector
-# numsteps: number of steps to simulate
-# timestep: time for a single step
+
+"""
+    simulate(x, Q, f, numsteps, timestep)
+
+Replicator/mutator simulation with fitness function.
+
+# Arguments
+- x population vector
+- Q mutation matrix
+- f function of x that returns fitness vector
+- numsteps number of steps to simulate
+- timestep time for a single step
+"""
 function simulate{T<:Float64}(x::Array{T,1}, Q::Array{T,2}, f::Function, numsteps, timestep::T=1.0)
     traj = zeros(Float64, numsteps+1, size(x,1))
     traj[1,:] = x
@@ -204,17 +277,24 @@ function simulate{T<:Float64}(x::Array{T,1}, Q::Array{T,2}, f::Function, numstep
         xp = replicatorMutator(x, Q, f(x))
         x = x + timestep*(x.*xp)
         x = x/norm(x, 1)
-        printsummary(x)
+        print_summary(x)
         traj[i+1,:] = x
     end
     return traj
 end
 
-# Replicator simulation with fitness vector
-# x: population vector
-# f: fitness vector
-# numsteps: number of steps to simulate
-# timestep: time for a single step
+
+"""
+    simulate(x, f, numsteps, timestep)
+
+Replicator simulation with fitness vector.
+
+# Arguments
+- x population vector
+- f fitness vector
+- numsteps number of steps to simulate
+- timestep time for a single step
+"""
 function simulate{T<:Float64}(x::Array{T,1}, f::Array{T,1}, numsteps, timestep::T=1.0)
     traj = zeros(Float64, numsteps+1, size(x,1))
     traj[1,:] = x
@@ -222,17 +302,24 @@ function simulate{T<:Float64}(x::Array{T,1}, f::Array{T,1}, numsteps, timestep::
         xp = replicator(x, f)
         x = x + timestep*(x.*xp)
         x = x/norm(x, 1)
-        printsummary(x)
+        print_summary(x)
         traj[i+1,:] = x
     end
     return traj
 end
 
-# Replicator simulation with fitness function
-# x: population vector
-# f: function of x that returns fitness vector
-# numsteps: number of steps to simulate
-# timestep: time for a single step
+
+"""
+    simulate(x, f, numsteps, timestep)
+
+Replicator simulation with fitness function.
+
+# Arguments
+- x population vector
+- f function of x that returns fitness vector
+- numsteps number of steps to simulate
+- timestep time for a single step
+"""
 function simulate{T<:Float64}(x::Array{T,1}, f::Function, numsteps, timestep::T=1.0)
     traj = zeros(Float64, numsteps+1, size(x,1))
     traj[1,:] = x
@@ -240,7 +327,7 @@ function simulate{T<:Float64}(x::Array{T,1}, f::Function, numsteps, timestep::T=
         xp = replicator(x, f(x))
         x = x + timestep*(x.*xp)
         x = x/norm(x, 1)
-        printsummary(x)
+        print_summary(x)
         traj[i+1,:] = x
     end
     return traj

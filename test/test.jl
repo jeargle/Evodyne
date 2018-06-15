@@ -1,5 +1,5 @@
 # John Eargle (mailto: jeargle at gmail.com)
-# 2015-2017
+# 2015-2018
 # test
 
 using Quasispecies
@@ -25,7 +25,7 @@ function test_simulate()
     println("*** Simulate Different Scenarios ***")
     println("***")
     println()
-    
+
     # Quasispecies mutation matrix columns and rows must sum to 1
     # Q1 = [0.9 0.05 0.05;
     #       0.05 0.9 0.05;
@@ -35,19 +35,19 @@ function test_simulate()
           0.1 0.1 0.8]
     Q2 = [0.8 0.1;
           0.1 0.8]
-    
+
     timestep = 0.2
     numsteps = 10
-    
+
     # x must sum to 1
     x1 = [0.1, 0.1, 0.8]
     x2 = [0.1, 0.9]
 
     println("*** print arrays ***")
-    # printsummary(x1)
-    # printsummary(x2)
-    printmatrix(x1)
-    printmatrix(x2)
+    # print_summary(x1)
+    # print_summary(x2)
+    print_matrix(x1)
+    print_matrix(x2)
 
     # f elements must be non-negative
     # f = [1.0, 1.0, 1.0]
@@ -77,19 +77,19 @@ function test_rock_paper_scissors()
     println("*** Simulate Rock-Paper-Scissors Scenarios ***")
     println("***")
     println()
-    
+
     timestep = 0.2
     numsteps = 20
-    
+
     # x must sum to 1
     x1 = [0.7, 0.2, 0.1]
     x2 = [0.2, 0.1, 0.7]
     x3 = [0.1, 0.7, 0.2]
 
     println("*** print species arrays ***")
-    printmatrix(x1)
-    printmatrix(x2)
-    printmatrix(x3)
+    print_matrix(x1)
+    print_matrix(x2)
+    print_matrix(x3)
 
     rps1 = rock_paper_scissors()
 
@@ -109,20 +109,20 @@ function test_hawk_dove()
     println("*** Simulate Hawk-Dove Scenarios ***")
     println("***")
     println()
-    
+
     timestep = 0.2
     numsteps = 20
-    
+
     # x must sum to 1
     x1 = [0.8, 0.2]
     x2 = [0.2, 0.8]
     x3 = [0.5, 0.5]
 
     println("*** print species arrays ***")
-    # printsummary(x1)
-    printmatrix(x1)
-    printmatrix(x2)
-    printmatrix(x3)
+    # print_summary(x1)
+    print_matrix(x1)
+    print_matrix(x2)
+    print_matrix(x3)
 
     hd1 = hawk_dove(2, 1)
     hd2 = hawk_dove(1, 5)
@@ -152,19 +152,19 @@ function test_chicken()
     println("*** Simulate Chicken Scenarios ***")
     println("***")
     println()
-    
+
     timestep = 0.2
     numsteps = 20
-    
+
     # x must sum to 1
     x1 = [0.8, 0.2]
     x2 = [0.2, 0.8]
     x3 = [0.5, 0.5]
 
     println("*** print species arrays ***")
-    printmatrix(x1)
-    printmatrix(x2)
-    printmatrix(x3)
+    print_matrix(x1)
+    print_matrix(x2)
+    print_matrix(x3)
 
     c1 = chicken(2, 1)
     c2 = chicken(1, 5)
@@ -194,19 +194,19 @@ function test_snowdrift()
     println("*** Simulate Snowdrift Scenarios ***")
     println("***")
     println()
-    
+
     timestep = 0.2
     numsteps = 20
-    
+
     # x must sum to 1
     x1 = [0.8, 0.2]
     x2 = [0.2, 0.8]
     x3 = [0.5, 0.5]
 
     println("*** print species arrays ***")
-    printmatrix(x1)
-    printmatrix(x2)
-    printmatrix(x3)
+    print_matrix(x1)
+    print_matrix(x2)
+    print_matrix(x3)
 
     s1 = snowdrift(2, 1)
     s2 = snowdrift(1, 5)
@@ -258,20 +258,20 @@ function test_quasispecies()
     println()
     Q1 = quasispecies(2, 0.1)
     Q2 = quasispecies(4, 0.1)
-    
-    printmatrix(Q1)
-    printmatrix(Q2)
+
+    print_matrix(Q1)
+    print_matrix(Q2)
 end
 
 
 function main()
-    # test_bary2cart()
-    # test_simulate()
-    # test_rock_paper_scissors()
-    # test_hawk_dove()
-    # test_chicken()
+    test_bary2cart()
+    test_simulate()
+    test_rock_paper_scissors()
+    test_hawk_dove()
+    test_chicken()
     test_snowdrift()
-    # test_quasispecies()
+    test_quasispecies()
 end
 
 main()
