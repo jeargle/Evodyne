@@ -65,7 +65,7 @@ end
 Get the number of bits different between two bitstrings.
 """
 function bitdiff(b1, b2)
-    length(matchall(r"1", bits((b1|b2)&~(b1&b2))))
+    length([x for x in eachmatch(r"1", bitstring((b1|b2)&~(b1&b2)))])
 end
 
 
