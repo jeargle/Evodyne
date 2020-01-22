@@ -1,8 +1,12 @@
 # John Eargle (mailto: jeargle at gmail.com)
-# 2015-2018
+# 2015-2020
 # quasispecies
 
+
 module Quasispecies
+
+using LinearAlgebra
+using Printf
 
 export print_summary, print_matrix
 export rock_paper_scissors, hawk_dove, chicken, snowdrift
@@ -204,7 +208,7 @@ Quasispecies equation (replicator/mutator) rate of change for x
 - Q mutation matrix
 - f fitness vector
 """
-function replicatorMutator{T<:Float64}(x::Array{T,1}, Q::Array{T,2}, f::Array{T,1})
+function replicatorMutator(x::Array{T,1}, Q::Array{T,2}, f::Array{T,1}) where T<:Float64
     phi = dot(f, x)
     println("  phi: ", phi)
     return Q*(f.*x) - phi*x
@@ -220,7 +224,7 @@ Replicator equation (no mutation)
 - x quasispecies population vector
 - f fitness vector
 """
-function replicator{T<:Float64}(x::Array{T,1}, f::Array{T,1})
+function replicator(x::Array{T,1}, f::Array{T,1}) where T<:Float64
     phi = dot(f, x)
     println("  phi: ", phi)
     return f.*x - phi*x
@@ -244,7 +248,7 @@ Replicator/mutator simulation with fitness vector.
 - numsteps number of steps to simulate
 - timestep time for a single step
 """
-function simulate{T<:Float64}(x::Array{T,1}, Q::Array{T,2}, f::Array{T,1}, numsteps, timestep::T=1.0)
+function simulate(x::Array{T,1}, Q::Array{T,2}, f::Array{T,1}, numsteps, timestep::T=1.0) where T<:Float64
     traj = zeros(Float64, numsteps+1, size(x,1))
     traj[1,:] = x
     for i = 1:numsteps
@@ -270,7 +274,7 @@ Replicator/mutator simulation with fitness function.
 - numsteps number of steps to simulate
 - timestep time for a single step
 """
-function simulate{T<:Float64}(x::Array{T,1}, Q::Array{T,2}, f::Function, numsteps, timestep::T=1.0)
+function simulate(x::Array{T,1}, Q::Array{T,2}, f::Function, numsteps, timestep::T=1.0) where T<:Float64
     traj = zeros(Float64, numsteps+1, size(x,1))
     traj[1,:] = x
     for i = 1:numsteps
@@ -295,7 +299,7 @@ Replicator simulation with fitness vector.
 - numsteps number of steps to simulate
 - timestep time for a single step
 """
-function simulate{T<:Float64}(x::Array{T,1}, f::Array{T,1}, numsteps, timestep::T=1.0)
+function simulate(x::Array{T,1}, f::Array{T,1}, numsteps, timestep::T=1.0) where T<:Float64
     traj = zeros(Float64, numsteps+1, size(x,1))
     traj[1,:] = x
     for i = 1:numsteps
@@ -320,7 +324,7 @@ Replicator simulation with fitness function.
 - numsteps number of steps to simulate
 - timestep time for a single step
 """
-function simulate{T<:Float64}(x::Array{T,1}, f::Function, numsteps, timestep::T=1.0)
+function simulate(x::Array{T,1}, f::Function, numsteps, timestep::T=1.0) where T<:Float64
     traj = zeros(Float64, numsteps+1, size(x,1))
     traj[1,:] = x
     for i = 1:numsteps
