@@ -1,9 +1,17 @@
 # John Eargle (mailto: jeargle at gmail.com)
-# 2015-2018
+# 2015-2020
 # test
 
 using Quasispecies
 
+
+function print_test_header(test_name)
+    border = repeat("*", length(test_name) + 4)
+    println()
+    println(border)
+    println("* ", test_name, " *")
+    println(border)
+end
 
 function f2(x::Array{Float64,1})
     # Game theoretic payoff matrix
@@ -20,11 +28,7 @@ end
 
 function test_simulate()
     # Run quasispecies simulation
-    println()
-    println("***")
-    println("*** Simulate Different Scenarios ***")
-    println("***")
-    println()
+    print_test_header("Simulate Different Scenarios")
 
     # Quasispecies mutation matrix columns and rows must sum to 1
     # Q1 = [0.9 0.05 0.05;
@@ -72,11 +76,7 @@ function test_simulate()
 end
 
 function test_rock_paper_scissors()
-    println()
-    println("***")
-    println("*** Simulate Rock-Paper-Scissors Scenarios ***")
-    println("***")
-    println()
+    print_test_header("Simulate Rock-Paper-Scissors Scenarios")
 
     timestep = 0.2
     numsteps = 20
@@ -104,11 +104,7 @@ function test_rock_paper_scissors()
 end
 
 function test_hawk_dove()
-    println()
-    println("***")
-    println("*** Simulate Hawk-Dove Scenarios ***")
-    println("***")
-    println()
+    print_test_header("Simulate Hawk-Dove Scenarios")
 
     timestep = 0.2
     numsteps = 20
@@ -147,11 +143,7 @@ function test_hawk_dove()
 end
 
 function test_chicken()
-    println()
-    println("***")
-    println("*** Simulate Chicken Scenarios ***")
-    println("***")
-    println()
+    print_test_header("Simulate Chicken Scenarios")
 
     timestep = 0.2
     numsteps = 20
@@ -189,11 +181,7 @@ function test_chicken()
 end
 
 function test_snowdrift()
-    println()
-    println("***")
-    println("*** Simulate Snowdrift Scenarios ***")
-    println("***")
-    println()
+    print_test_header("Simulate Snowdrift Scenarios")
 
     timestep = 0.2
     numsteps = 20
@@ -237,11 +225,8 @@ end
 
 function test_bary2cart()
     # Transform from barycentric to Cartesian coordinates
-    println()
-    println("***")
-    println("*** barycentric to Cartesian coordinates ***")
-    println("***")
-    println()
+    print_test_header("Barycentric to Cartesian coordinates")
+
     print_bary2cart(0.5, 0.4, 0.1)
     print_bary2cart(1.0, 0.0, 0.0)
     print_bary2cart(0.0, 1.0, 0.0)
@@ -251,11 +236,8 @@ end
 
 function test_quasispecies()
     # Quasispecies mutation matrix builder
-    println()
-    println("***")
-    println("*** Quasispecies matrices ***")
-    println("***")
-    println()
+    print_test_header("Quasispecies matrices")
+
     Q1 = quasispecies(2, 0.1)
     Q2 = quasispecies(4, 0.1)
 
