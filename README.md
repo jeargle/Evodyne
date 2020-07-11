@@ -10,7 +10,10 @@ General
 
 Evodyne simulates competing populations using variants of the quasispecies equation.  In the case where three populations are used, the population vector trajectories can be plotted on a triangle using barycentric coordinates.  Otherwise, individual population trajectories can be plotted over time.
 
+
 Dependencies
 ------------
 
 Gadfly
+LinearAlgebra
+Printf
