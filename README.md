@@ -14,6 +14,6 @@ Evodyne simulates competing populations using variants of the quasispecies equat
 Dependencies
 ------------
 
-Gadfly
-LinearAlgebra
-Printf
+1. Gadfly
+2. LinearAlgebra
+3. Printf
