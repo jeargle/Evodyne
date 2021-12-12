@@ -1,8 +1,15 @@
 # John Eargle (mailto: jeargle at gmail.com)
-# 2015-2020
+# 2015-2021
 # test
+#
+# To build sysimage boom.so from uveldt/test:
+#   using PackageCompiler
+#   create_sysimage([:LinearAlgebra, :Plots, :Printf], sysimage_path="../boom.so", precompile_execution_file="so_builder.jl")
+#
+# To run from uveldt/test:
+#   julia --project=.. -J../boom.so test.jl
 
-using Quasispecies
+using Evodyne
 
 
 function print_test_header(test_name)

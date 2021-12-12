@@ -1,9 +1,9 @@
 # John Eargle (mailto: jeargle at gmail.com)
 # 2015-2020
-# quasispecies
+# Evodyne
 
 
-module Quasispecies
+module Evodyne
 
 using LinearAlgebra
 using Printf

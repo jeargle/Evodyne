@@ -1,10 +1,10 @@
 # John Eargle (mailto: jeargle at gmail.com)
-# 2015
-# test
+# 2015-2021
+# simPlot
 
 using Gadfly
 
-using Quasispecies
+using Evodyne
 
 
 # Q columns and rows must sum to 1
@@ -81,5 +81,5 @@ draw(SVG("myplot.svg", 6inch, 6inch),
                 ),
           Scale.x_continuous(minvalue=0.0, maxvalue=1.0),
           Scale.y_continuous(minvalue=0.0, maxvalue=1.0)
-          ),
-     )
+         )
+    )
