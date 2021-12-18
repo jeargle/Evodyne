@@ -2,7 +2,7 @@
 # 2015-2021
 # simPlot
 
-using Gadfly
+using Plots
 
 using Evodyne
 
@@ -67,19 +67,11 @@ for i = 1:size(cartCoords,2)
     println(vec(cartCoords[1,i,:]))
 end
 
+p = plot([cartCoords[i,:, 1] for i in 1:size(cartCoords,1)],
+         [cartCoords[i,:, 2] for i in 1:size(cartCoords,1)],
+         aspect_ratio=:equal)
 
-draw(SVG("myplot.svg", 6inch, 6inch),
-     plot([layer(x=cartCoords[i,:, 1],
-                 y=cartCoords[i,:, 2],
-                 Geom.line(preserve_order=false)
-                 )
-           for i = 1:size(cartCoords,1)]...,
-          layer(x=[0.0, 1.0, 0.5, 0.0],
-                y=[0.0, 0.0, sqrt(3.0)/2, 0.0],
-                Geom.line(preserve_order=false),
-                Theme(default_color=colorant"black")
-                ),
-          Scale.x_continuous(minvalue=0.0, maxvalue=1.0),
-          Scale.y_continuous(minvalue=0.0, maxvalue=1.0)
-         )
-    )
+plot!(p, [0.0, 1.0, 0.5, 0.0], [0.0, 0.0, sqrt(3.0)/2, 0.0], color="black")
+
+# display(p)
+savefig(p, "myplot.svg")
