@@ -6,11 +6,12 @@
 module Evodyne
 
 using LinearAlgebra
+using Plots
 using Printf
 
 export print_summary, print_matrix
 export rock_paper_scissors, hawk_dove, chicken, snowdrift
-export quasispecies, bary2cart, simulate
+export quasispecies, bary2cart, plot_trajectories, simulate
 
 
 # =======================================
@@ -177,6 +178,12 @@ end
     bary2cart(r)
 
 Transform from barycentric to Cartesian coordinates.
+
+# Arguments
+- r 3D barycentric coordinate
+
+# Returns
+- Array{Float64, 1} Cartesian coordinate
 """
 function bary2cart(r::Array{Float64,1})
     # x1 = 0.0
@@ -195,6 +202,42 @@ end
 
 function bary2cart(r1, r2, r3)
     bary2cart([r1, r2, r3])
+end
+
+function bary2cart(trajList)
+    # Get Cartesian coords
+    cartCoords = zeros(Float64, size(trajList,1), size(trajList[1],1), 2)
+    for i = 1:size(trajList,1)
+        for j = 1:size(trajList[1],1)
+            cartCoords[i,j,:] = bary2cart(vec(trajList[i][j,:]))
+        end
+    end
+
+    return cartCoords
+end
+
+
+"""
+    plot_trajectories(trajList)
+
+Create a barycentric plot of population trajectories
+
+# Arguments
+trajList a list of simulated population trajectories
+
+# Returns
+plot object
+"""
+function plot_trajectories(trajList)
+    cartCoords = bary2cart(trajList)
+
+    p = plot([cartCoords[i,:, 1] for i in 1:size(cartCoords,1)],
+             [cartCoords[i,:, 2] for i in 1:size(cartCoords,1)],
+             aspect_ratio=:equal)
+
+    # Add triangle
+    plot!(p, [0.0, 1.0, 0.5, 0.0], [0.0, 0.0, sqrt(3.0)/2, 0.0], color="black")
+    return p
 end
 
 
