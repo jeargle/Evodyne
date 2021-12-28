@@ -121,6 +121,7 @@ function chicken(b, c)
     # x: species frequency vector
     a = [-c b;
          0.0 b/2]
+
     return x -> a*x
 end
 
@@ -139,6 +140,7 @@ function snowdrift(b, c)
     # x: species frequency vector
     a = [(b-c/2) (b-c);
          b 0.0]
+
     return x -> a*x
 end
 
@@ -197,6 +199,7 @@ function bary2cart(r::Array{Float64,1})
     # x = r1*x1 + r2*x2 + r3*x3
     # y = r1*y1 + r2*y2 + r3*y3
     coord = T*r
+
     return [coord[1] coord[2]]
 end
 
@@ -237,6 +240,7 @@ function plot_trajectories(trajList)
 
     # Add triangle
     plot!(p, [0.0, 1.0, 0.5, 0.0], [0.0, 0.0, sqrt(3.0)/2, 0.0], color="black")
+
     return p
 end
 
@@ -270,6 +274,7 @@ Replicator equation (no mutation)
 function replicator(x::Array{T,1}, f::Array{T,1}) where T<:Float64
     phi = dot(f, x)
     println("  phi: ", phi)
+
     return f.*x - phi*x
 end
 
@@ -294,6 +299,7 @@ Replicator/mutator simulation with fitness vector.
 function simulate(x::Array{T,1}, Q::Array{T,2}, f::Array{T,1}, numsteps, timestep::T=1.0) where T<:Float64
     traj = zeros(Float64, numsteps+1, size(x,1))
     traj[1,:] = x
+
     for i = 1:numsteps
         xp = replicatorMutator(x, Q, f)
         x = x + timestep*(x.*xp)
@@ -301,6 +307,7 @@ function simulate(x::Array{T,1}, Q::Array{T,2}, f::Array{T,1}, numsteps, timeste
         # print_summary(x)
         traj[i+1,:] = x
     end
+
     return traj
 end
 
@@ -320,6 +327,7 @@ Replicator/mutator simulation with fitness function.
 function simulate(x::Array{T,1}, Q::Array{T,2}, f::Function, numsteps, timestep::T=1.0) where T<:Float64
     traj = zeros(Float64, numsteps+1, size(x,1))
     traj[1,:] = x
+    
     for i = 1:numsteps
         xp = replicatorMutator(x, Q, f(x))
         x = x + timestep*(x.*xp)
@@ -327,6 +335,7 @@ function simulate(x::Array{T,1}, Q::Array{T,2}, f::Function, numsteps, timestep:
         print_summary(x)
         traj[i+1,:] = x
     end
+    
     return traj
 end
 
@@ -345,6 +354,7 @@ Replicator simulation with fitness vector.
 function simulate(x::Array{T,1}, f::Array{T,1}, numsteps, timestep::T=1.0) where T<:Float64
     traj = zeros(Float64, numsteps+1, size(x,1))
     traj[1,:] = x
+
     for i = 1:numsteps
         xp = replicator(x, f)
         x = x + timestep*(x.*xp)
@@ -352,6 +362,7 @@ function simulate(x::Array{T,1}, f::Array{T,1}, numsteps, timestep::T=1.0) where
         print_summary(x)
         traj[i+1,:] = x
     end
+
     return traj
 end
 
@@ -370,6 +381,7 @@ Replicator simulation with fitness function.
 function simulate(x::Array{T,1}, f::Function, numsteps, timestep::T=1.0) where T<:Float64
     traj = zeros(Float64, numsteps+1, size(x,1))
     traj[1,:] = x
+
     for i = 1:numsteps
         xp = replicator(x, f(x))
         x = x + timestep*(x.*xp)
@@ -377,6 +389,7 @@ function simulate(x::Array{T,1}, f::Function, numsteps, timestep::T=1.0) where T
         print_summary(x)
         traj[i+1,:] = x
     end
+
     return traj
 end
 
