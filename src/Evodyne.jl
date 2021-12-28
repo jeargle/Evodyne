@@ -182,7 +182,7 @@ end
 Transform from barycentric to Cartesian coordinates.
 
 # Arguments
-- r 3D barycentric coordinate
+- r::Array{Float64,1} 3D barycentric coordinate
 
 # Returns
 - Array{Float64, 1} Cartesian coordinate
@@ -226,10 +226,10 @@ end
 Create a barycentric plot of population trajectories
 
 # Arguments
-trajList a list of simulated population trajectories
+- trajList a list of simulated population trajectories
 
 # Returns
-plot object
+- plot object
 """
 function plot_trajectories(trajList)
     cartCoords = bary2cart(trajList)
@@ -251,13 +251,17 @@ end
 Quasispecies equation (replicator/mutator) rate of change for x
 
 # Arguments
-- x population vector
-- Q mutation matrix
-- f fitness vector
+- x::Array{T,1} population vector
+- Q::Array{T,2} mutation matrix
+- f::Array{T,1} fitness vector
+
+# Returns
+- Array{T,1} new population vector
 """
 function replicatorMutator(x::Array{T,1}, Q::Array{T,2}, f::Array{T,1}) where T<:Float64
     phi = dot(f, x)
     println("  phi: ", phi)
+    
     return Q*(f.*x) - phi*x
 end
 
@@ -268,8 +272,11 @@ end
 Replicator equation (no mutation)
 
 # Arguments
-- x quasispecies population vector
-- f fitness vector
+- x::Array{T,1} quasispecies population vector
+- f::Array{T,1} fitness vector
+
+# Returns
+- Array{T,1} new population vector
 """
 function replicator(x::Array{T,1}, f::Array{T,1}) where T<:Float64
     phi = dot(f, x)
@@ -295,6 +302,9 @@ Replicator/mutator simulation with fitness vector.
 - f fitness vector
 - numsteps number of steps to simulate
 - timestep time for a single step
+
+# Returns
+- trajectory
 """
 function simulate(x::Array{T,1}, Q::Array{T,2}, f::Array{T,1}, numsteps, timestep::T=1.0) where T<:Float64
     traj = zeros(Float64, numsteps+1, size(x,1))
@@ -323,11 +333,14 @@ Replicator/mutator simulation with fitness function.
 - f function of x that returns fitness vector
 - numsteps number of steps to simulate
 - timestep time for a single step
+
+# Returns
+- trajectory
 """
 function simulate(x::Array{T,1}, Q::Array{T,2}, f::Function, numsteps, timestep::T=1.0) where T<:Float64
     traj = zeros(Float64, numsteps+1, size(x,1))
     traj[1,:] = x
-    
+
     for i = 1:numsteps
         xp = replicatorMutator(x, Q, f(x))
         x = x + timestep*(x.*xp)
@@ -335,7 +348,7 @@ function simulate(x::Array{T,1}, Q::Array{T,2}, f::Function, numsteps, timestep:
         print_summary(x)
         traj[i+1,:] = x
     end
-    
+
     return traj
 end
 
@@ -350,6 +363,9 @@ Replicator simulation with fitness vector.
 - f fitness vector
 - numsteps number of steps to simulate
 - timestep time for a single step
+
+# Returns
+- trajectory
 """
 function simulate(x::Array{T,1}, f::Array{T,1}, numsteps, timestep::T=1.0) where T<:Float64
     traj = zeros(Float64, numsteps+1, size(x,1))
@@ -377,6 +393,9 @@ Replicator simulation with fitness function.
 - f function of x that returns fitness vector
 - numsteps number of steps to simulate
 - timestep time for a single step
+
+# Returns
+- trajectory
 """
 function simulate(x::Array{T,1}, f::Function, numsteps, timestep::T=1.0) where T<:Float64
     traj = zeros(Float64, numsteps+1, size(x,1))
