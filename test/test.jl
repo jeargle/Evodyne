@@ -1,5 +1,4 @@
 # John Eargle (mailto: jeargle at gmail.com)
-# 2015-2021
 # test
 #
 # To build sysimage boom.so from uveldt/test:
