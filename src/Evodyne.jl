@@ -14,7 +14,7 @@ export quasispecies, bary2cart, plot_trajectories, simulate
 
 # Axelrod
 include("axelrod.jl")
-export markov_game_matrix
+export markov_game_matrix, run_axelrod_tournament
 
 
 # =======================================
