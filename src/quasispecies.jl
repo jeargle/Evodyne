@@ -24,6 +24,9 @@
     print_summary(a)
 
 Print the summary for an object a.
+
+# Arguments
+- `a`: object
 """
 function print_summary(a)
     # summary generates a summary of an object
@@ -35,6 +38,9 @@ end
     print_matrix(a)
 
 Print the matrix a.
+
+# Arguments
+- `a`: matrix
 """
 function print_matrix(a)
     x = size(a, 1)
@@ -52,6 +58,13 @@ end
     bitdiff(b1, b2)
 
 Get the number of bits different between two bitstrings.
+
+# Arguments
+- `b1`: first bitstring
+- `b2`: second bitstring
+
+# Returns
+- bit difference
 """
 function bitdiff(b1, b2)
     length([x for x in eachmatch(r"1", bitstring((b1|b2)&~(b1&b2)))])
@@ -64,8 +77,11 @@ end
 Build a replicator fitness function for Rock Paper Scissors.
 
 # Arguments
-- b benefit of winning fight
-- c cost of losing fight
+- `b`: benefit of winning fight
+- `c`: cost of losing fight
+
+# Returns
+- fitness function
 """
 function rock_paper_scissors(b=1.0, c=1.0)
     # a: rock-paper-scissors game theoretic payoff matrix
@@ -83,8 +99,11 @@ end
 Build a replicator fitness function for the Hawk-Dove game.
 
 # Arguments
-- b benefit of winning fight
-- c cost of losing fight
+- `b`: benefit of winning fight
+- `c`: cost of losing fight
+
+# Returns
+- fitness function
 """
 function hawk_dove(b, c)
     # a: hawk-dove game theoretic payoff matrix
@@ -101,8 +120,11 @@ end
 Build a replicator fitness function for the Chicken game.
 
 # Arguments
-- b benefit of winning fight
-- c cost of losing fight
+- `b`: benefit of winning fight
+- `c`: cost of losing fight
+
+# Returns
+- fitness function
 """
 function chicken(b, c)
     # a: chicken game theoretic payoff matrix
@@ -120,8 +142,11 @@ end
 Build a replicator fitness function for the Snowdrift game.
 
 # Arguments
-- b benefit of winning fight
-- c cost of losing fight
+- `b`: benefit of winning fight
+- `c`: cost of losing fight
+
+# Returns
+- fitness function
 """
 function snowdrift(b, c)
     # a: snowdrift game theoretic payoff matrix
@@ -139,8 +164,11 @@ end
 Generate a quasispecies mutation matrix.
 
 # Arguments
-- len::Int number of binary characters in the genome
-- mutProb::Float64 probability of a single SNP
+- `len::Int`: number of binary characters in the genome
+- `mutProb::Float64` probability of a single SNP
+
+# Returns
+- mutation matrix
 """
 function quasispecies(len::Int, mutProb::Float64)
     bitslen = 2^len
@@ -165,15 +193,15 @@ end
 
 
 """
-    bary2cart(r)
+    bary2cart(r::Array{Float64,1})
 
 Transform from barycentric to Cartesian coordinates.
 
 # Arguments
-- r::Array{Float64,1} 3D barycentric coordinate
+- `r::Array{Float64,1}`: 3D barycentric coordinate
 
 # Returns
-- Array{Float64, 1} Cartesian coordinate
+- `Array{Float64, 1}`: Cartesian coordinate
 """
 function bary2cart(r::Array{Float64,1})
     # x1 = 0.0
@@ -191,10 +219,36 @@ function bary2cart(r::Array{Float64,1})
     return [coord[1] coord[2]]
 end
 
+
+"""
+    bary2cart(r1, r2, r3)
+
+Transform from barycentric to Cartesian coordinates.
+
+# Arguments
+- `r1`: first 3D barycentric coordinate
+- `r2`: second 3D barycentric coordinate
+- `r3`: third 3D barycentric coordinate
+
+# Returns
+- `Array{Float64, 1}`: Cartesian coordinate
+"""
 function bary2cart(r1, r2, r3)
     bary2cart([r1, r2, r3])
 end
 
+
+"""
+    bary2cart(trajList)
+
+Transform array from barycentric to Cartesian coordinates.
+
+# Arguments
+- `trajList`: list of 3D barycentric coordinates
+
+# Returns
+- array of Cartesian coordinates
+"""
 function bary2cart(trajList)
     # Get Cartesian coords
     cartCoords = zeros(Float64, size(trajList,1), size(trajList[1],1), 2)
@@ -214,7 +268,7 @@ end
 Create a barycentric plot of population trajectories
 
 # Arguments
-- trajList a list of simulated population trajectories
+- `trajList`: list of simulated population trajectories
 
 # Returns
 - plot object
@@ -234,17 +288,17 @@ end
 
 
 """
-    replicatorMutator(x, Q, f)
+    replicatorMutator(x::Array{T,1}, Q::Array{T,2}, f::Array{T,1}) where T<:Float64
 
 Quasispecies equation (replicator/mutator) rate of change for x
 
 # Arguments
-- x::Array{T,1} population vector
-- Q::Array{T,2} mutation matrix
-- f::Array{T,1} fitness vector
+- `x::Array{T,1}`: population vector
+- `Q::Array{T,2}`: mutation matrix
+- `f::Array{T,1}`: fitness vector
 
 # Returns
-- Array{T,1} new population vector
+- `Array{T,1}`: new population vector
 """
 function replicatorMutator(x::Array{T,1}, Q::Array{T,2}, f::Array{T,1}) where T<:Float64
     phi = dot(f, x)
@@ -255,16 +309,16 @@ end
 
 
 """
-    replicator(x, f)
+    replicator(x::Array{T,1}, f::Array{T,1}) where T<:Float64
 
 Replicator equation (no mutation)
 
 # Arguments
-- x::Array{T,1} quasispecies population vector
-- f::Array{T,1} fitness vector
+- `x::Array{T,1}`: quasispecies population vector
+- `f::Array{T,1}`: fitness vector
 
 # Returns
-- Array{T,1} new population vector
+- `Array{T,1}`: new population vector
 """
 function replicator(x::Array{T,1}, f::Array{T,1}) where T<:Float64
     phi = dot(f, x)
@@ -280,16 +334,16 @@ end
 # =======================================
 
 """
-    simulate(x, Q, f, numsteps, timestep)
+    simulate(x::Array{T,1}, Q::Array{T,2}, f::Array{T,1}, numsteps, timestep::T=1.0) where T<:Float64
 
 Replicator/mutator simulation with fitness vector.
 
 # Arguments
-- x population vector
-- Q mutation matrix
-- f fitness vector
-- numsteps number of steps to simulate
-- timestep time for a single step
+- `x::Array{T,1}`: population vector
+- `Q::Array{T,2}`: mutation matrix
+- `f::Array{T,1}`: fitness vector
+- `numsteps`: number of steps to simulate
+- `timestep::T`: time for a single step; default 1.0
 
 # Returns
 - trajectory
@@ -311,16 +365,16 @@ end
 
 
 """
-    simulate(x, Q, f, numsteps, timestep)
+    simulate(x::Array{T,1}, Q::Array{T,2}, f::Function, numsteps, timestep::T=1.0) where T<:Float64
 
 Replicator/mutator simulation with fitness function.
 
 # Arguments
-- x population vector
-- Q mutation matrix
-- f function of x that returns fitness vector
-- numsteps number of steps to simulate
-- timestep time for a single step
+- `x::Array{T,1}`: population vector
+- `Q::Array{T,2}`: mutation matrix
+- `f::Function`: function of x that returns fitness vector
+- `numsteps`: number of steps to simulate
+- `timestep::T`: time for a single step; default 1.0
 
 # Returns
 - trajectory
@@ -342,15 +396,15 @@ end
 
 
 """
-    simulate(x, f, numsteps, timestep)
+    simulate(x::Array{T,1}, f::Array{T,1}, numsteps, timestep::T=1.0) where T<:Float64
 
 Replicator simulation with fitness vector.
 
 # Arguments
-- x population vector
-- f fitness vector
-- numsteps number of steps to simulate
-- timestep time for a single step
+- `x::Array{T,1}`: population vector
+- `f::Array{T,1}`: fitness vector
+- `numsteps`: number of steps to simulate
+- `timestep::T`: time for a single step; default 1.0
 
 # Returns
 - trajectory
@@ -372,15 +426,15 @@ end
 
 
 """
-    simulate(x, f, numsteps, timestep)
+    simulate(x::Array{T,1}, f::Function, numsteps, timestep::T=1.0) where T<:Float64
 
 Replicator simulation with fitness function.
 
 # Arguments
-- x population vector
-- f function of x that returns fitness vector
-- numsteps number of steps to simulate
-- timestep time for a single step
+- `x::Array{T,1}`: population vector
+- `f::Function`: function of x that returns fitness vector
+- `numsteps`: number of steps to simulate
+- `timestep::T`: time for a single step; default 1.0
 
 # Returns
 - trajectory

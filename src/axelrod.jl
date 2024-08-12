@@ -66,11 +66,14 @@ end
 
 
 """
-    run_axelrod_tournament()
+    run_axelrod_tournament(players, game_matrix, num_rounds)
 
 Run an Axelrod tournament where pairs of competitors compete against each other.
 
 # Arguments
+- `players`:
+- `game_matrix`:
+- `num_rounds`:
 
 # Returns
 """
